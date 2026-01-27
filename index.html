@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Kalupur E-Sports ID</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{box-sizing:border-box;font-family:Poppins,Arial}
+body{
+margin:0;
+min-height:100vh;
+background:radial-gradient(circle at top,#0ff2,#020b18 65%);
+display:flex;
+align-items:center;
+justify-content:center;
+color:#fff;
+overflow:hidden;
+}
+@keyframes glow{
+0%{box-shadow:0 0 10px #00f7ff}
+50%{box-shadow:0 0 30px #00f7ff}
+100%{box-shadow:0 0 10px #00f7ff}
+}
+@keyframes blink{50%{opacity:.4}}
+@keyframes spin{100%{transform:rotate(360deg)}}
+
+.box{
+width:92%;
+max-width:420px;
+background:#061a2f;
+border-radius:25px;
+padding:25px;
+text-align:center;
+animation:glow 2.5s infinite;
+}
+h1{
+margin:0 0 20px;
+color:#00f7ff;
+text-shadow:0 0 18px #00f7ff;
+}
+input{
+width:100%;
+padding:14px;
+border:none;
+border-radius:25px;
+margin-bottom:12px;
+font-size:16px;
+outline:none;
+}
+button{
+width:100%;
+padding:14px;
+border:none;
+border-radius:25px;
+font-size:16px;
+color:#fff;
+background:linear-gradient(90deg,#ff512f,#dd2476);
+box-shadow:0 0 20px #ff4d6d;
+cursor:pointer;
+}
+button:active{transform:scale(.97)}
+.msg{
+margin-top:15px;
+font-size:18px;
+animation:blink 1s infinite;
+}
+#resultPage,#adminPanel{display:none}
+
+/* ID CARD */
+.id-card{
+margin-top:15px;
+background:linear-gradient(135deg,#041c33,#0a2d4f);
+border-radius:18px;
+padding:18px;
+box-shadow:0 0 30px #00f7ff;
+animation:glow 2s infinite;
+}
+.photo-box{
+position:relative;
+width:110px;
+height:130px;
+margin:0 auto 12px;
+}
+.photo-box::before{
+content:"";
+position:absolute;
+inset:-6px;
+border-radius:10px;
+background:conic-gradient(#00f7ff,transparent,#ff4d6d,#00f7ff);
+animation:spin 2s linear infinite;
+}
+.photo-box img{
+position:relative;
+width:100%;
+height:100%;
+object-fit:cover;
+border-radius:8px;
+background:#000;
+z-index:2;
+}
+.stars{color:gold;font-size:18px}
+.footer{
+margin-top:18px;
+font-size:14px;
+opacity:.8;
+animation:blink 2s infinite;
+}
+.back{
+margin-top:15px;
+background:linear-gradient(90deg,#00c6ff,#0072ff);
+}
+.admin-btn{
+position:fixed;
+top:12px;
+right:15px;
+font-size:14px;
+opacity:.7;
+cursor:pointer;
+}
+.admin-btn:hover{opacity:1}
+</style>
+</head>
+
+<body>
+
+<div class="admin-btn" onclick="openAdmin()">ADMIN</div>
+
+<!-- SEARCH PAGE -->
+<div class="box" id="searchPage">
+<h1>KALUPUR E-SPORTS<br>PLAYER SEARCH</h1>
+<input id="query" placeholder="Search by Name or Mobile Number">
+<button onclick="search()">SEARCH</button>
+<div id="message" class="msg"></div>
+<div class="footer">© 2026 KALUPUR E-SPORTS • ALL RIGHTS RESERVED</div>
+</div>
+
+<!-- RESULT PAGE -->
+<div class="box" id="resultPage">
+<button class="back" onclick="goBack()">← Back</button>
+<div class="id-card" id="card">
+  <div class="photo-box">
+    <img id="r_photo">
+  </div>
+  <h2 id="r_name"></h2>
+  <p><b>RANK :</b> <span id="r_rank"></span></p>
+  <div class="stars" id="r_stars"></div>
+  <p>📞 <span id="r_number"></span></p>
+  <p><b>ID :</b> <span id="r_id"></span></p>
+</div>
+<button style="margin-top:15px" onclick="downloadID()">⬇ Download ID</button>
+<div class="footer">© 2026 KALUPUR E-SPORTS</div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div class="box" id="adminPanel">
+<h1>ADMIN PANEL</h1>
+<input id="a_name" placeholder="Name">
+<input id="a_number" placeholder="Mobile">
+<input id="a_rank" placeholder="Rank">
+<input id="a_stars" placeholder="Stars ★★★">
+<input id="a_photo" placeholder="Photo URL">
+<button onclick="addPlayer()">ADD PLAYER</button>
+<button class="back" onclick="exitAdmin()">EXIT</button>
+</div>
+
+<script>
+/* ===== DATA (7 PLAYERS) ===== */
+const players=[
+{name:"MD YEASIN RAJA",number:"9735679532",rank:"IN-GAME LEADER",stars:"★★★★☆",photo:"https://files.catbox.moe/i8ar87.png"},
+{name:"SANIUL ISLAM IMAN",number:"6294126551",rank:"VICE CAPTAIN",stars:"★★★",photo:"https://files.catbox.moe/rk2goc.png"},
+{name:"MONIR HASAN",number:"9732434444",rank:"TEAM COACH",stars:"★★★★★",photo:"https://files.catbox.moe/ngrpss.png"},
+{name:"RUBEL SHAH",number:"6294525541",rank:"IN-GAME LEADER",stars:"★★★★☆",photo:"https://files.catbox.moe/z7kcqx.png"},
+{name:"WAJIDUR RAHAMAN",number:"8509127042",rank:"SUB PLAYER",stars:"★★",photo:"https://files.catbox.moe/w8mrcz.png"},
+{name:"ROJA RONO",number:"9564923691",rank:"VICE CAPTAIN",stars:"★★★",photo:"https://files.catbox.moe/z95b38.png"},
+{name:"MANJARUL SK",number:"7029232055",rank:"SUB PLAYER",stars:"★★",photo:"https://files.catbox.moe/0wudwn.png"}
+];
+
+function generateID(){
+return "FH"+Math.floor(10000000+Math.random()*90000000);
+}
+
+function search(){
+const q=query.value.trim().toLowerCase();
+if(!q) return;
+message.style.color="#00f7ff";
+message.innerText="🔄 REDIRECTING…";
+setTimeout(()=>{
+const p=players.find(x=>x.name.toLowerCase().includes(q)||x.number.includes(q));
+if(!p){
+message.style.color="red";
+message.innerText="❌ NO RECORD FOUND";
+return;
+}
+searchPage.style.display="none";
+resultPage.style.display="block";
+r_photo.src=p.photo;
+r_name.innerText=p.name;
+r_rank.innerText=p.rank;
+r_stars.innerText=p.stars;
+r_number.innerText=p.number;
+r_id.innerText=generateID();
+},3000);
+}
+
+function goBack(){
+resultPage.style.display="none";
+searchPage.style.display="block";
+message.innerText="";
+}
+
+/* ===== ADMIN ===== */
+function openAdmin(){
+const p=prompt("Enter Admin Password");
+if(p==="admin123"){
+searchPage.style.display="none";
+adminPanel.style.display="block";
+}
+}
+function exitAdmin(){
+adminPanel.style.display="none";
+searchPage.style.display="block";
+}
+function addPlayer(){
+players.push({
+name:a_name.value,
+number:a_number.value,
+rank:a_rank.value,
+stars:a_stars.value,
+photo:a_photo.value
+});
+alert("Player Added Successfully");
+a_name.value=a_number.value=a_rank.value=a_stars.value=a_photo.value="";
+}
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script>
+function downloadID(){
+html2canvas(document.getElementById("card")).then(canvas=>{
+const a=document.createElement("a");
+a.download="Kalupur_Esports_ID.png";
+a.href=canvas.toDataURL("image/png");
+a.click();
+});
+}
+</script>
+
+</body>
+</html>
